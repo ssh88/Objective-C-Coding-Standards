@@ -932,7 +932,7 @@ Notice how the table view manager is instantiated with the view controller as it
 At the view controller, the call site is simple and clean, and now all logic is shifted away from the view controller.
 
 ```objc
-FooTableViewManager *tableViewManager = [FooTableViewManager alloc] initWithDelegate:self tableView:self.tableView];
+self.tableViewManager = [FooTableViewManager alloc] initWithDelegate:self tableView:self.tableView];
 
 ```
 
@@ -946,10 +946,20 @@ Table view manager protocol method to reload a table view.
 - (void) fooTableViewManagerReloadData:(FooTableViewManager *)fooTableViewManager;
 ```
 
-Also, the table view manager can not manipulate the data source, and therefore does not hold a reference to the datasource. Any time the datasource is needed, it requests its via a protocol method
+Also, the table view manager should not manipulate the ```dataSource```, and therefore does not hold a reference to the ```datasource```. Any time the data is needed, it is requested via a protocol method
 
 ```
 - (NSArray *) fooTableViewManagerTableData:(FooTableViewManager *)fooTableViewManager;
+
+...
+...
+
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.delegate.fooTableViewManagerTableData.count
+}
 ```
 
 However, as you can see the table view is passed as an argument in the table view manager's ```initWithDelegate:tableView:``` method, this allows the manager to setup additional attributes on the table view, for example:
@@ -986,7 +996,7 @@ UITableViewDelegate
 }
 ```
 
-Above, the implementation file conforms to the ```UITableViewDataSource``` or ```UITableViewDelegate``` protocol methods, this then allows the table view manager to set the delegate and datasource properties of the table view.
+Above, the implementation file conforms to the ```UITableViewDataSource``` or ```UITableViewDelegate``` protocol methods, this then allows the table view manager to set the ```delegate``` and ```dataSource``` properties of the table view.
 
 Other cases where the manager may need to interact with the table view outside of its protocol methods, is registering cells or setting a collection view layout
 
@@ -997,8 +1007,8 @@ Other cases where the manager may need to interact with the table view outside o
 
 - (void) setupTableView:(UITableView *)tableView
 {
-   ...
-   ...
+    ...
+    ...
     tableView.rowHeight = UITableViewAutomaticDimension;
     [self registerCellsForTableView:tableView];
 }
