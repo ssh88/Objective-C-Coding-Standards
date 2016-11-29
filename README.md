@@ -921,26 +921,20 @@ The following example illustrates how a protocol manager is implemented and used
 @end
 
 @interface FooTableViewManager : NSObject
-<
-UITableViewDataSource,
-UITableViewDelegate
->
-- (instancetype)initWithDelegate:(id<FooTableViewManagerDelegate>)delegate;
-
+- (instancetype)initWithDelegate:(id<FooTableViewManagerDelegate>)delegate tableView:(UITableView *)tableView;
 @end
 ```
 
-The manager conforms to the ```UITableViewDelegate``` and ```UITableViewDataSource``` protocols in the header file enabling it to be assigned as the table view's delegate and datasource in the view controller:
+Notice how the table view manager is instantiated with the view controller as its delegate. This is so the manager can communicate any actions performed back to view controller, such as a row being selected or to reload the table view when it updates its datasource. 
 
-**For example:**
+At the view controller, the call site is simple and clean
 
 ```objc
-FooTableViewManager *tableViewManager = [FooTableViewManager alloc] initWithDelegate:self];
-self.tableView.delegate = tableViewManager;
-self.tableView.dataSource = tableViewManager;
+FooTableViewManager *tableViewManager = [FooTableViewManager alloc] initWithDelegate:self tableView:self.tableView];
+
 ```
 
-Notice how the table view manager is instantiated with the view controller as its delegate. This is so the manager can communicate any actions performed back to view controller, such as a row being selected or to reload the table view when it updates its datasource. 
+The table view manager **DOES NOT** hold a reference to the table view, any actions that need to be performed on the table view outside of the ```UITableViewDataSource``` or ```UITableViewDelegate``` protocol methods, are delegated back to the table view managers delegate, in this case, ```FooViewcContoller```
 
 **For example:**
 
@@ -950,14 +944,47 @@ Table view manager protocol to reload a table view.
 - (void) fooTableViewManagerDidUpdateData:(FooTableViewManager *)fooTableViewManager;
 ```
 
-The manager should not have a property to maintain a reference to the table view it manages, as it references the table view when needed via the table view delegate and data source methods. 
+However, as you can see the table view is passed as an argument in the table view manager's init method, this allows the manager to setup additional attributes on the table view, for example:
 
-However there are some cases where the manager may need to interact with the table view outside of its protocol methods, such as registering cells or setting a collection view layout. For these reasons the manager may contain additional methods in the header file, passing in the object it manages as an argument.
+**Protocol Manager implementation file:**
+```
+@implementation FooTableViewManager
+
+- (instancetype)initWithDelegate:(id <FooTableViewManagerDelegate>)delegate tableView:(UITableView *)tableView
+{
+    self = [super init];
+    if (self) {
+        self.delegate = delegate;
+        [self setupTableView:tableView];
+    }
+    return self;
+}
+
+#pragma mark - setup
+
+- (void) setupTableView:(UITableView *)tableView
+{
+    tableView.dataSource = self;
+    tableView.delegate = self;
+}
+```
+
+Above, the implementation file conforms to the ```UITableViewDataSource``` or ```UITableViewDelegate``` protocol methods, this then allows the table view manager to set the delegate and datasource properties of the table view.
+
+Other cases where the manager may need to interact with the table view outside of its protocol methods, is registering cells or setting a collection view layout
 
 **For example:**
 
-```objc
-- (void) registerCellsForTableView:(UITableView *)tableView;
+```
+#pragma mark - setup
+
+- (void) setupTableView:(UITableView *)tableView
+{
+   ...
+   ...
+    tableView.rowHeight = UITableViewAutomaticDimension;
+    [self registerCellsForTableView:tableView];
+}
 ```
 
 Using this pattern, the view controller remains light and only needs to worry about UI logic such as the view aspects of the table view, shifting all the data and cell logic to the table view manager. 
