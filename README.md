@@ -2,11 +2,11 @@
 
 ## Overview
 
-Finally got round to digging up an old template I wrote and used across various teams I lead (Projects at Deloiitte & miPic). It acts as a framework I normally use for the internal coding standards. 
+I Finally got round to digging up an old template I wrote and used across various teams I lead (Projects at Deloitte Digital & miPic to name a few). It acts as a framework I normally use for the internal coding standards for the teams im in. 
 
-If you happened to land here on accident actually wanting to learn Objective-C (why...you do know there is something called Swift...no? where have you been :|) I would highly recommend taking a look at my colleague and super dev [Alberto De Bortoli's]("https://github.com/albertodebortoli") book [Zen and the Art of the Objective-C Craftsmanship]("https://github.com/objc-zen/objc-zen-book") which he co-authored.
+If you happened to land here on accident actually wanting to learn Objective-C (why...you do know there is something called Swift...) I would highly recommend taking a look at my colleague and super dev [Alberto De Bortoli's](https://github.com/albertodebortoli) book [Zen and the Art of the Objective-C Craftsmanship](https://github.com/objc-zen/objc-zen-book) which he co-authored.
 
-Finally would like to thank [Pete Cornish]("https://github.com/outofcoffee") for providing the idea and first draft for this...also another super dev, check him out.
+Finally would like to thank [Pete Cornish](https://github.com/outofcoffee) for providing the idea and first draft for this...also another super dev, check him out.
 
 ### Languages ###
 
