@@ -927,27 +927,42 @@ The following example illustrates how a protocol manager is implemented and used
 
 Notice how the table view manager is instantiated with the view controller as its delegate. This is so the manager can communicate any actions performed back to view controller, such as a row being selected or to reload the table view when it updates its datasource. 
 
-At the view controller, the call site is simple and clean
+At the view controller, the call site is simple and clean, and now all logic is shifted away from the view controller.
 
 ```objc
 FooTableViewManager *tableViewManager = [FooTableViewManager alloc] initWithDelegate:self tableView:self.tableView];
 
 ```
 
-The table view manager **DOES NOT** hold a reference to the table view, any actions that need to be performed on the table view outside of the ```UITableViewDataSource``` or ```UITableViewDelegate``` protocol methods, are delegated back to the table view managers delegate, in this case, ```FooViewcContoller```
+It is important to note the table view manager **DOES NOT** hold a reference to the table view, any actions that need to be performed on the table view outside of the ```UITableViewDataSource``` or ```UITableViewDelegate``` protocol methods, are delegated back to the table view managers delegate, in this case, ```FooViewcContoller```
 
 **For example:**
 
-Table view manager protocol to reload a table view.
+Table view manager protocol method to reload a table view.
 
 ```objc
-- (void) fooTableViewManagerDidUpdateData:(FooTableViewManager *)fooTableViewManager;
+- (void) fooTableViewManagerReloadData:(FooTableViewManager *)fooTableViewManager;
 ```
 
-However, as you can see the table view is passed as an argument in the table view manager's init method, this allows the manager to setup additional attributes on the table view, for example:
+Also, the table view manager can not manipulate the data source, and therefore does not hold a reference to the datasource. Any time the datasource is needed, it requests its via a protocol method
+
+```
+- (NSArray *) fooTableViewManagerTableData:(FooTableViewManager *)fooTableViewManager;
+```
+
+However, as you can see the table view is passed as an argument in the table view manager's ```initWithDelegate:tableView:``` method, this allows the manager to setup additional attributes on the table view, for example:
 
 **Protocol Manager implementation file:**
 ```
+@interface FooTableViewManager()
+<
+UITableViewDataSource,
+UITableViewDelegate
+>
+@property (nonatomic, weak) id <FooTableViewManagerDelegate> delegate;
+
+@end
+
 @implementation FooTableViewManager
 
 - (instancetype)initWithDelegate:(id <FooTableViewManagerDelegate>)delegate tableView:(UITableView *)tableView
