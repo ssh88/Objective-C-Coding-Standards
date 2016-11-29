@@ -21,7 +21,7 @@ This is intended to be a living document and therefore we welcome feedback and c
 If you intend to create a pull request please consider the following
 
  * This document is created using the markdown language, follow suite and use the correct syntax!
- * All PR's must include @desertmonkey as the reviewer.
+ * All PR's must include @ssh88 as the reviewer.
  * Only reviewers can approve and merge the PR.
 
 ### Table Of Contents ###
