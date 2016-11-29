@@ -6,7 +6,9 @@ I Finally got round to digging up an old template I wrote and used across variou
 
 If you happened to land here on accident actually wanting to learn Objective-C coding standards (why...you do know there is something called Swift...) I would highly recommend taking a look at my colleague and super dev [Alberto De Bortoli's](https://github.com/albertodebortoli) book [Zen and the Art of the Objective-C Craftsmanship](https://github.com/objc-zen/objc-zen-book) which he co-authored.
 
-Finally would like to thank [Pete Cornish](https://github.com/outofcoffee) for providing the idea and first draft for this...also another super dev, check him out.
+Would also like to thank [Pete Cornish](https://github.com/outofcoffee) for providing the idea and first draft for this...also another super dev, check him out.
+
+Finally a nod towards [NY Times Objective C style guide](https://github.com/NYTimes/objective-c-style-guide) for help setting the tone of this document
 
 ### Languages ###
 
