@@ -900,7 +900,7 @@ TODO: Explain service class uses i.e business logic, stateless etc
 
 ### Protocol Managers ###
 
-Objects such as table views, collection views and map views usually require objects that conform to their protocols to implement many lines of code. For example a view controller conforming to the datasource and delegate protocols of a table view will normally implement the following methods:
+Objects such as table views, collection views and map views usually require objects that conform to their protocols to implement many lines of code. For example a view controller conforming to the ```dataSource``` and ```delegate``` protocols of a table view will normally implement the following methods:
 
 ```objc
 - tableView:cellForRowAtIndexPath:
@@ -921,7 +921,9 @@ The following example illustrates how a protocol manager is implemented and used
 @end
 
 @interface FooTableViewManager : NSObject
+
 - (instancetype)initWithDelegate:(id<FooTableViewManagerDelegate>)delegate tableView:(UITableView *)tableView;
+
 @end
 ```
 
