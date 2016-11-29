@@ -16,7 +16,7 @@ The guide only covers Objective-C
 
 If you feel there is something you disagree with, or missing, then do something about it!!!
 
-This is intended to be a living document and therefore we welcome feedback and contributions via [[Pull Requests](https://bitbucket.org/GetRewardz/get-rewardz-ios-internal/pull-requests/"pull requests").
+This is intended to be a living document and therefore we welcome feedback and contributions via [Pull Requests](https://github.com/ssh88/Objective-C-Coding-Standards/pulls).
 
 If you intend to create a pull request please consider the following
 
